@@ -1,0 +1,180 @@
+{
+	"errorCode": 0,
+	"data": [
+		{
+			"series": "日常消费类",
+			"content": [
+
+				{
+					"commodityName": "string1",
+				
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+					
+				}, {
+					"commodityName": "string2",
+					"companynames": [
+						{
+							"companyName": "11111222"
+						}	, {
+							"companyName": "222222222"
+						}, {
+							"companyName": "33333222"
+						}
+					]
+				}, {
+					"commodityName": "string3",
+					"companynames": [
+						{
+							"companyName": "11111333"
+						}	, {
+							"companyName": "222222333"
+						}, {
+							"companyName": "33333333"
+						}
+					]
+				}, {
+					"commodityName": "string4",
+					"companynames": [
+						{
+							"companyName": "11111"
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}
+					]
+				}
+			]
+		}, {
+			"series": "娱乐消费类",
+			"content": [
+				{
+					"commodityName": "string3",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}, {
+					"commodityName": "string4",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}, {
+					"commodityName": "string5",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}, {
+					"commodityName": "string6",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}
+			]
+		}
+		, {
+			"series": "生活消费类",
+			"content": [
+				{
+					"commodityName": "string7",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}, {
+					"commodityName": "string8",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}, {
+					"commodityName": "string9",
+					"companynames": [
+						{
+							"companyName": "11111"  
+						}	, {
+							"companyName": "222222"
+						}, {
+							"companyName": "33333"
+						}, {
+							"companyName": "44444"
+						}, {
+							"companyName": "55555"
+						}
+					]
+				}
+			]
+		}
+	],
+	"pageNum": 1,
+	"pages": 10
+}

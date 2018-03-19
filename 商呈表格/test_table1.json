@@ -1,0 +1,85 @@
+{
+	"errorCode": 0,
+	"data": [
+		{
+			"series": "日常消费类",
+			"content": [
+
+				{
+					"commodityName": "string1",
+				
+					"id1": "0",
+					"id2": "0",
+					"id3": "1"
+					
+				}, {
+					"commodityName": "string2",
+					"id1": "1",
+					"id2": "0",
+					"id3": "0"
+					
+				}, {
+					"commodityName": "string3",
+					"id1": "0",
+					"id2": "1",
+					"id3": "0"
+					
+				}, {
+					"commodityName": "string4",
+					"id1": "0",
+					"id2": "1",
+					"id3": "0"
+					
+				}
+			]
+		}, {
+			"series": "娱乐消费类",
+			"content": [
+				{
+					"commodityName": "string3",
+					"id1": "0",
+					"id2": "0",
+					"id3": "1"
+				}, {
+					"commodityName": "string4",
+					"id1": "1",
+					"id2": "0",
+					"id3": "0"
+				}, {
+					"commodityName": "string5",
+					"id1": "0",
+					"id2": "1",
+					"id3": "0"
+				}, {
+					"commodityName": "string6",
+					"id1": "0",
+					"id2": "0",
+					"id3": "1"
+				}
+			]
+		}
+		, {
+			"series": "生活消费类",
+			"content": [
+				{
+					"commodityName": "string7",
+					"id1": "1",
+					"id2": "0",
+					"id3": "0"
+				}, {
+					"commodityName": "string8",
+					"id1": "0",
+					"id2": "1",
+					"id3": "0"
+				}, {
+					"commodityName": "string9",
+					"id1": "0",
+					"id2": "0",
+					"id3": "1"
+				}
+			]
+		}
+	],
+	"pageNum": 1,
+	"pages": 10
+}

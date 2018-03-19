@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>选择框</title>
+		<link href="style.css" rel="stylesheet">
+		<link href="../assets/css/bootstrap.css" rel="stylesheet">
+		<script type="text/javascript" src="../lib/angular.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myController">
+		<div class="dropdown-out-contianer">
+			<div class="dropdown-new">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    				{{cityname}}
+    				<span class="caret"></span>
+  				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="min-width: 400px;">
+					<li ng-repeat="area in areas ">
+						<h4 class="menu-h4">{{area.areaname}}</h4>
+						<div class="menu-right">
+							<div class="menu-right-in">
+								<div class="menu-right-herf" ng-repeat="city in area.citylist">
+									<a ng-click="citychange(city)"><span ng-class="{true:'click',false:'unclick'}[city.content]">{{city.name}}</span></a>
+								</div>
+							</div>
+						</div>
+						<hr class="menu-hr">
+					</li>
+				</ul>
+			</div>
+
+			<div class="dropdown-new">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    					类型
+    				<span class="caret"></span>
+  				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="min-width: 400px;">
+					<li>
+
+						<h4 class="menu-h4">{{area.areaname}}</h4>
+						<div class="menu-right">
+							<div class="menu-right-in">
+								<div class="menu-right-herf" ng-repeat="city in area.citylist">
+									<a ng-click="citychange(city)"><span ng-class="{true:'click',false:'unclick'}[city.content]">{{city.name}}</span></a>
+								</div>
+							</div>
+						</div>
+						<hr class="menu-hr">
+					</li>
+				</ul>
+			</div>
+
+			<div class="dropdown-new">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    					行业
+    				<span class="caret"></span>
+  				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="min-width: 400px;">
+					<li>
+						<h4 class="menu-h4">{{area.areaname}}</h4>
+						<div class="menu-right">
+							<div class="menu-right-in">
+								<div class="menu-right-herf" ng-repeat="city in area.citylist">
+									<a ng-click="citychange(city)"><span ng-class="{true:'click',false:'unclick'}[city.content]">{{city.name}}</span></a>
+								</div>
+							</div>
+						</div>
+						<hr class="menu-hr">
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myController', function($scope, $http) {
+			$http.get('test.json').success(function(response) {
+				$scope.areas = response.data;
+
+				$scope.cityname = "城市";
+				$scope.citychange = function(data) {
+					if(data.content === "true") {
+						$scope.cityname = data.name;
+					} else {
+						$scope.cityname = "城市";
+						//   此处添加点击事件不会产生
+					}
+
+				}
+			});
+		});
+	</script>
+
+</html>

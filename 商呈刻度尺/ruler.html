@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>刻度尺</title>
+		<link href="style.css" rel="stylesheet">
+		<!--<link href="../assets/css/bootstrap.css" rel="stylesheet">-->
+		<script type="text/javascript" src="../lib/angular.min.js"></script>
+		<!--<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+	</head>
+
+	<body ng-app="myApp" ng-controller="myController">
+
+		<div class="container-all">
+			<img class="human" src="../assets/img/2.jpg" />
+			<div  class="container-number">
+				<div class="number" ng-repeat="Number in rulerNumber">
+					<span >{{Number.number}}</span>
+				</div>
+			</div>
+			<img class="ruler" src="../assets/img/ruler.jpg" />
+		</div>
+
+			<table class="table-ruler"  cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th colspan="2">消费占比</th>
+						<th>富豪</th>
+						<th>精英</th>
+						<th>小资</th>
+						<th>小康</th>
+						<th>小微</th>
+						<th>打拼</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="ser in List">
+					<td ng-bind="ser.series"></td>
+					<tr ng-repeat="comdt in ser.content">
+						<td ng-bind="comdt.commodityname"></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			
+			
+			
+		
+	</body>
+
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myController', function($scope, $http) {
+			$http.get('test.json').success(function(response) {
+				$scope.rulerNumber = response.data1;
+				$scope.List= response.data2;
+			});
+		});
+	</script>
+
+</html>

@@ -1,0 +1,159 @@
+{
+	"data": [
+		{
+			"areaname": "热门城市1",
+			"citylist": [
+
+				{
+					"id": "110100",
+					"name": "北京",
+					"content":"true"
+				}, {
+					"id": "110200",
+					"name": "上海",
+					"content":"true"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"true"
+				}, {
+					"id": "110001",
+					"name": "广州",
+					"content":"false"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}
+			]
+		}, {
+			"areaname": "热门城市2",
+			"citylist": [
+
+				{
+					"id": "110100",
+					"name": "北京",
+					"content":"false"
+				}, {
+					"id": "110200",
+					"name": "上海",
+					"content":"false"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"false"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"false"
+				}, {
+					"id": "110500",
+					"name": "广州",
+					"content":"false"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"false"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"false"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"false"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"false"
+				}
+			]
+		}, {
+			"areaname": "热门城市3",
+			"citylist": [
+
+				{
+					"id": "110100",
+					"name": "北京",
+					"content":"true"
+				}, {
+					"id": "110200",
+					"name": "上海",
+					"content":"true"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"true"
+				}, {
+					"id": "110500",
+					"name": "广州",
+					"content":"false"
+				}
+			]
+		},{
+			"areaname": "热门城市4",
+			"citylist": [
+
+				{
+					"id": "110100",
+					"name": "北京",
+					"content":"true"
+				}, {
+					"id": "110200",
+					"name": "上海",
+					"content":"true"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"true"
+				}, {
+					"id": "110500",
+					"name": "广州",
+					"content":"false"
+				}
+			]
+		},{
+			"areaname": "热门城市5",
+			"citylist": [
+
+				{
+					"id": "110100",
+					"name": "北京",
+					"content":"true"
+				}, {
+					"id": "110200",
+					"name": "上海",
+					"content":"true"
+				}, {
+					"id": "110300",
+					"name": "南京",
+					"content":"true"
+				}, {
+					"id": "110400",
+					"name": "成都",
+					"content":"false"
+				}, {
+					"id": "110500",
+					"name": "广州",
+					"content":"false"
+				}
+			]
+		}
+	]
+}

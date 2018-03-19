@@ -1,0 +1,32 @@
+.container-all{
+	margin-top: 30px;
+	margin-left: 100px;
+	width: 1250px;
+}
+
+.container-number{
+	width: 990.5px
+}
+
+.human{
+	margin-left: 91px;
+}
+
+.number{
+	width: 141.5px;display: inline-block;text-align: center;
+}
+
+.ruler{
+	margin-left: 70.7px;
+}
+
+.table-ruler{
+	margin-left:28px;
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+table > thead > tr > th {
+	width: 140.5px;
+	height: 30px;
+}
