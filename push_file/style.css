@@ -1,0 +1,11 @@
+body {
+	margin: 40px;
+}
+
+form {
+	width: 40%;
+}
+
+.btn-input {
+	padding: 5px 9px;
+}
