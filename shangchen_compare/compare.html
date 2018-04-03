@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>刻度尺</title>
+		<link href="style.css" rel="stylesheet">
+		<link href="../assets/css/bootstrap.css" rel="stylesheet">
+		<script type="text/javascript" src="../lib/angular.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myController">
+		<div class="fenge-text"><u>消费人群画像</u></div>
+		<!--左边内容-->
+		<div class="col-lg-6 left-all" style="width: 610px;">
+			<!--分割线-->
+			<div class="container-left">
+				<img class="human" src="../assets/img/2.jpg" />
+				<div class="container-number">
+					<div class="number" ng-repeat="Number in rulerNumber">
+						<span>{{Number.number}}</span>
+					</div>
+				</div>
+				<img class="ruler" src="../assets/img/ruler.jpg" />
+			</div>
+
+			<!--左边表格-->
+			<table class="table-ruler-left" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th colspan="2" class="thead-th-1">消费占比</th>
+						<th>富豪</th>
+						<th>精英</th>
+						<th>小资</th>
+						<th>小康</th>
+						<th>小微</th>
+						<th>打拼</th>
+					</tr>
+				</thead>
+				<tbody class="tbody-border-bottom" ng-repeat="ser in List">
+					<td class="td-series" rowspan="{{ser.content.length+1}}">
+						<div class="tbody-td-1">{{ser.series}}</div>
+					</td>
+					<tr ng-repeat="comdt in ser.content">
+						<td class="td-commodityName" ng-bind="comdt.commodityName"></td>
+						<td ng-bind="comdt.id1"></td>
+						<td ng-bind="comdt.id2"></td>
+						<td ng-bind="comdt.id3"></td>
+						<td ng-bind="comdt.id4"></td>
+						<td ng-bind="comdt.id5"></td>
+						<td ng-bind="comdt.id6"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!--右边内容-->
+		<div class="col-lg-6">
+			<div class="container-right">
+				<img class="human" src="../assets/img/2.jpg" />
+				<div class="container-number">
+					<div class="number" ng-repeat="Number in rulerNumber">
+						<span>{{Number.number}}</span>
+					</div>
+				</div>
+				<img class="ruler" src="../assets/img/ruler.jpg" />
+			</div>
+			<!--右边表格-->
+			<table class="table-ruler-right" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th colspan="2" class="thead-th-1">消费占比</th>
+						<th>富豪</th>
+						<th>精英</th>
+						<th>小资</th>
+						<th>小康</th>
+						<th>小微</th>
+						<th>打拼</th>
+					</tr>
+				</thead>
+				<tbody class="tbody-border-bottom" ng-repeat="ser in List">
+					<td class="td-series" rowspan="{{ser.content.length+1}}">
+						<div class="tbody-td-1">{{ser.series}}</div>
+					</td>
+					<tr ng-repeat="comdt in ser.content">
+						<td class="td-commodityName" ng-bind="comdt.commodityName"></td>
+						<td ng-bind="comdt.id1"></td>
+						<td ng-bind="comdt.id2"></td>
+						<td ng-bind="comdt.id3"></td>
+						<td ng-bind="comdt.id4"></td>
+						<td ng-bind="comdt.id5"></td>
+						<td ng-bind="comdt.id6"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myController', function($scope, $http) {
+			$http.get('test.json').success(function(response) {
+				$scope.rulerNumber = response.data1;
+				$scope.List = response.data2;
+			});
+		});
+	</script>
+
+</html>

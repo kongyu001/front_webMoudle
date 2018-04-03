@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title data-i18n="resources.title_drawFeatures"></title>
+		<link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
+		<script type="text/javascript" include="bootstrap,jquery,widgets.alert" src="../js/include-web.js"></script>
+		<script type="text/javascript" src="../dist/include-openlayers.js"></script>
+
+		<style>
+			.ol-popup {
+				position: absolute;
+				top: 50px;
+				right: 20px;
+			}
+		</style>
+	</head>
+
+	<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%;position: absolute;top: 0;">
+		<div id="map" style="width: 100%;height:100%"></div>
+		<div id="popup" class="ol-popup">
+			<div class="btn-group" role="group" aria-label="...">
+				<button id="drawPoint" value='Point' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawPoint"></button>
+				<button id="drawLine" value='LineString' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawLine"></button>
+				<button id="drawPolygon" value='Polygon' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawPolygon"></button>
+				<button id="drawCircle" value='Circle' type="button" class="btn btn-default" data-i18n="resources.btn_drawCircle"></button>
+				<button id="none" value='None' type="button" class="btn btn-default" data-i18n="resources.btn_notDraw"></button>
+				<button id="clear" value='Clear' type="button" class="btn btn-default" data-i18n="resources.text_input_value_clear"></button>
+			</div>
+		</div>
+		<script type="text/javascript" include="jquery,bootstrap" src="../js/include-web.js"></script>
+		<script type="text/javascript">
+			var map, draw, interaction, listener, measureTooltipElement, helpTooltipElement,tooltipCoord;
+			var raster = new ol.layer.Tile({
+			  source: new ol.source.OSM()
+			});
+			var source = new ol.source.Vector({
+				wrapX: false
+			});
+			var vector = new ol.layer.Vector({
+				source: source
+			});
+			url = (window.isLocal ? window.server : "http://support.supermap.com.cn:8090") + "/iserver/services/map-china400/rest/maps/China";
+			map = new ol.Map({
+				layers: [raster, vector],
+				target: 'map',
+				view: new ol.View({
+					center: ol.proj.fromLonLat([121.4539, 31.27405]),
+			    	zoom: 10,
+//					projection: 'EPSG:4326'
+				})
+			});
+			var info = new ol.control.Control({
+				element: document.getElementById('popup')
+			});
+			info.setMap(map);
+			map.addControl(info);
+
+			function createMeasureTooltip() {
+				if(measureTooltipElement) {
+					measureTooltipElement.parentNode.removeChild(measureTooltipElement);
+				}
+				measureTooltipElement = document.createElement('div');
+				measureTooltipElement.className = 'tooltip tooltip-measure';
+				measureTooltip = new ol.Overlay({
+					element: measureTooltipElement,
+					offset: [0, -15],
+					positioning: 'bottom-center'
+				});
+				map.addOverlay(measureTooltip);
+			}
+			
+			/**
+			 * Creates a new help tooltip
+			 */
+			function createHelpTooltip() {
+				if(helpTooltipElement) {
+					helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+				}
+				helpTooltipElement = document.createElement('div');
+				helpTooltipElement.className = 'tooltip hidden';
+				helpTooltip = new ol.Overlay({
+					element: helpTooltipElement,
+					offset: [15, 0],
+					positioning: 'center-left'
+				});
+				map.addOverlay(helpTooltip);
+			}
+
+			var formatRadius = function(data, circle) {
+				var length = data.getRadius(circle);
+				var output;
+				if(length > 100) {
+					output = (Math.round(length / 1000 * 100) / 100) +
+						' ' + 'km';
+				} else {
+					output = (Math.round(length * 100) / 100) +
+						' ' + 'm';
+				}
+				return output;
+			};
+
+
+			var buttons = $('.btn-group').children();
+			buttons.map(function(key) {
+				var value = buttons[key].value;
+				if(value === 'None') {
+					$(buttons[key]).on('click', function() {
+						clearInteraction();
+					});
+					return;
+				}
+				if(value === 'Clear') {
+					$(buttons[key]).on('click', function() {
+						clearInteraction();
+						source.clear();
+					});
+					return;
+				}
+				$(buttons[key]).on('click',
+					function() {
+						clearInteraction();
+						draw = new ol.interaction.Draw({
+							source: source,
+							type: buttons[key].value,
+							snapTolerance: 10
+						});
+						map.addInteraction(draw);
+						createMeasureTooltip()
+						createHelpTooltip()
+						var output;
+						draw.on('drawstart',
+							function(evt) {
+								feature = evt.feature;
+								
+								 tooltipCoord = evt.coordinate;
+								
+								listener = feature.getGeometry().on('change', function(evt) {
+									var geom = evt.target;
+									
+									if(geom instanceof ol.geom.Circle) {
+									
+										output = formatRadius(geom, geom);
+										
+										tooltipCoord = geom.getLastCoordinate();
+									} 
+								});
+								
+							}, this);
+							
+						if(buttons[key].value == "LineString") {
+							draw.on('drawend', function() {
+								var distanceMeasureParam = new SuperMap.MeasureParameters(feature.getGeometry());
+								new ol.supermap.MeasureService(url, {
+									measureMode: ""
+								}).measureDistance(distanceMeasureParam, function(serviceResult) {
+									var s=serviceResult.result.distance / 1000;
+									widgets.alert.showAlert(Math.round(s*100)/100 + "千米", true);
+								});
+							});
+						}
+						if(buttons[key].value == "Polygon") {
+							draw.on('drawend', function() {
+								var areaMeasureParam = new SuperMap.MeasureParameters(feature.getGeometry());
+								new ol.supermap.MeasureService(url).measureArea(areaMeasureParam, function(serviceResult) {
+									var a=serviceResult.result.area / 1000000
+									widgets.alert.showAlert(Math.round(a*1000)/1000 + "平方千米", true);
+								});
+							});
+						}
+						if(buttons[key].value == "Circle") {
+							draw.on('drawend', function() {
+								widgets.alert.showAlert("经度:"+ol.proj.transform(tooltipCoord, 'EPSG:3857','EPSG:4326')[0]+"<br>"+"纬度："+ol.proj.transform(tooltipCoord, 'EPSG:3857','EPSG:4326')[1]+"<br>"+"半径："+output,true)
+							});
+						}
+					});
+			});
+
+			function clearInteraction() {
+				if(draw) {
+					map.removeInteraction(draw);
+				}
+			}
+		</script>
+	</body>
+
+</html>

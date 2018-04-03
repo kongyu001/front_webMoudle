@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>表格1</title>
+		<script type="text/javascript" src="../lib/angular.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<link href="../assets/css/bootstrap.css" rel="stylesheet">
+		<link href="style.css" rel="stylesheet">
+		
+	</head>
+
+	<body ng-app="myApp" ng-controller="myController">
+		<div class="row mt">
+			<div class="col-md-12 ml">
+					<table id="table" class="table table-striped table-advance " border="1" bordercolor="#FFF">
+						<thead class="thead-bgColor">
+							<tr >
+								<th colspan="2" class="text-center">行业</th>
+								<th class="text-center">高风险</th>
+								<th class="text-center">中风险</th>
+								<th class="text-center">低风险</th>
+							</tr>
+						</thead>
+						<tbody ng-repeat="ser in list " class="tbody-border">
+								<td class="td-series" style="background-color: #D0E9C6;" rowspan="{{ser.content.length+1}}"><div class="thead-content-1" >{{ser.series}}</div></td>
+							<tr ng-repeat="comdt in ser.content">
+								<td ng-bind="comdt.commodityName" class="td-name"></td>
+								<td align="center"><img ng-src="{{comdt.id1}}" style="width: 30px;"></td>
+								<td align="center"><img ng-src="{{comdt.id2}}" style="width: 30px;"></td>
+								<td align="center"><img ng-src="{{comdt.id3}}" style="width: 30px;"></td>
+							</tr>
+
+						</tbody>
+					</table>
+			</div>
+			<!-- /col-md-12 -->
+		</div>
+		<!-- /row -->
+	</body>
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myController', function($scope, $http) {
+			$http.get('test_table1.json').success(function(response) {
+				response.data = response.data.map(function(a) {
+					a.content = a.content.map(function(b) {
+						if(b.id1 === '1') {
+							b.id1 = '../assets/img/confirm.png';
+						} else {
+							b.id1 = {}
+						};
+						if(b.id2 === '1') {
+							b.id2 = '../assets/img/confirm.png';
+						} else {
+							b.id2 = {}
+						};
+						if(b.id3 === '1') {
+							b.id3 = '../assets/img/confirm.png';
+						} else {
+							b.id3 = {}
+						};
+						return {
+							commodityName: b.commodityName,
+							id1: b.id1,
+							id2: b.id2,
+							id3: b.id3
+						}
+
+					})
+					return {
+						series: a.series,
+						content: a.content
+					}
+				})
+				$scope.list = response.data;
+			});
+		});
+	</script>
+
+</html>
