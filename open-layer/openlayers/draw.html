@@ -23,7 +23,7 @@
 		<div id="map" style="width: 100%;height:100%"></div>
 		<div id="popup" class="ol-popup">
 			<div class="btn-group" role="group" aria-label="...">
-				<button id="drawPoint" value='Point' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawPoint"></button>
+				<!--<button id="drawPoint" value='Point' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawPoint"></button>-->
 				<button id="drawLine" value='LineString' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawLine"></button>
 				<button id="drawPolygon" value='Polygon' type="button" class="btn btn-default" data-i18n="resources.text_input_value_drawPolygon"></button>
 				<button id="drawCircle" value='Circle' type="button" class="btn btn-default" data-i18n="resources.btn_drawCircle"></button>
@@ -33,9 +33,9 @@
 		</div>
 		<script type="text/javascript" include="jquery,bootstrap" src="../js/include-web.js"></script>
 		<script type="text/javascript">
-			var map, draw, interaction, listener, measureTooltipElement, helpTooltipElement,tooltipCoord;
+			var map, draw, interaction, listener, measureTooltipElement, helpTooltipElement, tooltipCoord;
 			var raster = new ol.layer.Tile({
-			  source: new ol.source.OSM()
+				source: new ol.source.OSM()
 			});
 			var source = new ol.source.Vector({
 				wrapX: false
@@ -43,14 +43,14 @@
 			var vector = new ol.layer.Vector({
 				source: source
 			});
-			url = (window.isLocal ? window.server : "http://support.supermap.com.cn:8090") + "/iserver/services/map-china400/rest/maps/China";
+			//			url = (window.isLocal ? window.server : "http://support.supermap.com.cn:8090") + "/iserver/services/map-china400/rest/maps/China";
 			map = new ol.Map({
 				layers: [raster, vector],
 				target: 'map',
 				view: new ol.View({
 					center: ol.proj.fromLonLat([121.4539, 31.27405]),
-			    	zoom: 10,
-//					projection: 'EPSG:4326'
+					zoom: 10,
+					//					projection: 'EPSG:4326'
 				})
 			});
 			var info = new ol.control.Control({
@@ -72,7 +72,7 @@
 				});
 				map.addOverlay(measureTooltip);
 			}
-			
+
 			/**
 			 * Creates a new help tooltip
 			 */
@@ -90,6 +90,19 @@
 				map.addOverlay(helpTooltip);
 			}
 
+			var formatLength = function(line) {
+				var length = ol.Sphere.getLength(line);
+				var output;
+				if(length > 100) {
+					output = (Math.round(length / 1000 * 100) / 100) +
+						' ' + 'km';
+				} else {
+					output = (Math.round(length * 100) / 100) +
+						' ' + 'm';
+				}
+				return output;
+			};
+
 			var formatRadius = function(data, circle) {
 				var length = data.getRadius(circle);
 				var output;
@@ -102,9 +115,20 @@
 				}
 				return output;
 			};
-
-
+			
+			var covertCoord=function(coord){
+				var arr = [];
+				for (var i=0;i < coord[0].length-1; i++) {
+					arr.push("经度："+Math.round(ol.proj.transform(coord[0][i],'EPSG:3857', 'EPSG:4326')[0]*10000)/10000+" ");
+					arr.push("纬度："+Math.round(ol.proj.transform(coord[0][i],'EPSG:3857', 'EPSG:4326')[1]*10000)/10000+"<br>");
+				}
+				return arr;
+			}
+			
+			
+			
 			var buttons = $('.btn-group').children();
+			
 			buttons.map(function(key) {
 				var value = buttons[key].value;
 				if(value === 'None') {
@@ -126,54 +150,50 @@
 						draw = new ol.interaction.Draw({
 							source: source,
 							type: buttons[key].value,
-							snapTolerance: 10
+							snapTolerance: 20
 						});
 						map.addInteraction(draw);
-						createMeasureTooltip()
-						createHelpTooltip()
 						var output;
 						draw.on('drawstart',
 							function(evt) {
+								createMeasureTooltip()
+								createHelpTooltip()
 								feature = evt.feature;
-								
-								 tooltipCoord = evt.coordinate;
+
+								tooltipCoord = evt.coordinate;
 								
 								listener = feature.getGeometry().on('change', function(evt) {
 									var geom = evt.target;
-									
 									if(geom instanceof ol.geom.Circle) {
-									
 										output = formatRadius(geom, geom);
-										
 										tooltipCoord = geom.getLastCoordinate();
-									} 
+									} else if(geom instanceof ol.geom.LineString) {
+										output = formatLength(geom, geom);
+									} else if(geom instanceof ol.geom.Polygon) {
+										tooltipCoord = geom.getCoordinates();
+									}
+									measureTooltipElement.innerHTML = output;
+									measureTooltip.setPosition(tooltipCoord);
 								});
-								
+
 							}, this);
-							
+
 						if(buttons[key].value == "LineString") {
 							draw.on('drawend', function() {
-								var distanceMeasureParam = new SuperMap.MeasureParameters(feature.getGeometry());
-								new ol.supermap.MeasureService(url, {
-									measureMode: ""
-								}).measureDistance(distanceMeasureParam, function(serviceResult) {
-									var s=serviceResult.result.distance / 1000;
-									widgets.alert.showAlert(Math.round(s*100)/100 + "千米", true);
-								});
-							});
+								widgets.alert.showAlert(output, true)
+							}, this);
 						}
-						if(buttons[key].value == "Polygon") {
+					
+					    if(buttons[key].value == "Polygon") {
 							draw.on('drawend', function() {
-								var areaMeasureParam = new SuperMap.MeasureParameters(feature.getGeometry());
-								new ol.supermap.MeasureService(url).measureArea(areaMeasureParam, function(serviceResult) {
-									var a=serviceResult.result.area / 1000000
-									widgets.alert.showAlert(Math.round(a*1000)/1000 + "平方千米", true);
-								});
+							console.log(covertCoord(tooltipCoord))
+							widgets.alert.showAlert(covertCoord(tooltipCoord),true)
 							});
 						}
+
 						if(buttons[key].value == "Circle") {
 							draw.on('drawend', function() {
-								widgets.alert.showAlert("经度:"+ol.proj.transform(tooltipCoord, 'EPSG:3857','EPSG:4326')[0]+"<br>"+"纬度："+ol.proj.transform(tooltipCoord, 'EPSG:3857','EPSG:4326')[1]+"<br>"+"半径："+output,true)
+								widgets.alert.showAlert("经度:" + Math.round(ol.proj.transform(tooltipCoord, 'EPSG:3857', 'EPSG:4326')[0]*10000)/10000 + " " + "纬度：" +Math.round(ol.proj.transform(tooltipCoord, 'EPSG:3857', 'EPSG:4326')[1]*10000)/10000 + "<br>" + "半径：" + output, true)
 							});
 						}
 					});
